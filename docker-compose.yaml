@@ -1,0 +1,13 @@
+version: "3.0"
+services:
+  backend:
+    image: node:14
+    volumes:
+      - ./src:/app
+    working_dir: /app
+    entrypoint: ["yarn", "nodemon", "index.js"]
+
+  redis:
+    image: redis
+    volums:
+      - ./data:/data
