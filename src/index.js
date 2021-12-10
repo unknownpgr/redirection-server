@@ -5,6 +5,24 @@ const body = require('koa-bodyparser');
 const serve = require('koa-static');
 const path = require('path');
 
+const prefiex = prefix => value => `${prefix}${value}`;
+const h = prefiex('h'); // Prefix for hash
+const u = prefiex('u'); // Prefix for URL
+const k = prefiex('k'); // Prefix for key
+
+const safeChars = [...'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._'];
+const N = safeChars.length;
+const num2char = Object.fromEntries(safeChars.map((x, i) => [i, x]));
+
+function encode(number) {
+  let result = '';
+  while (number > 0) {
+    result += num2char[number % N];
+    number = Math.floor(number / N);
+  }
+  return result;
+};
+
 async function main() {
   const client = createClient({
     url: 'redis://redis:6379'
@@ -14,11 +32,6 @@ async function main() {
 
   const app = new Koa();
   const router = new Router();
-
-  const prefiex = prefix => value => `${prefix}${value}`;
-  const h = prefiex('h'); // Prefix for hash
-  const u = prefiex('u'); // Prefix for URL
-  const k = prefiex('k'); // Prefix for key
 
   router.get('/:hash', async ctx => {
     const { hash } = ctx.params;
@@ -43,7 +56,7 @@ async function main() {
       ctx.body = hash;
     } else {
       // Cache miss
-      const newHash = `${await client.incr(k('hash'))}`;
+      const newHash = encode(await client.incr(k('hash')));
       // Save both key-value and value-key
       await client.set(h(newHash), url);
       await client.set(u(url), newHash);
