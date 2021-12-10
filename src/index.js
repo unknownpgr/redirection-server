@@ -60,6 +60,7 @@ async function main() {
       // Save both key-value and value-key
       await client.set(h(newHash), url);
       await client.set(u(url), newHash);
+      console.log(`${url} ==> ${newHash}`);
       ctx.body = newHash;
     }
   });
