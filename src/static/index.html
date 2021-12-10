@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <style>
+      .container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 2rem;
+      }
+    </style>
+
+    <title>Short link generator</title>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Fash short-link generator</h1>
+      <div>
+        <input id="url" onkeydown="keydown(event)" />
+        <button onclick="hash()">Get URL</button>
+      </div>
+      <div><a id="result"></a></div>
+    </div>
+    <script>
+      function keydown(e) {
+        if (e.keyCode === 13) hash();
+      }
+
+      async function hash() {
+        const value = url.value;
+        const response = await fetch("/", {
+          method: "post",
+          body: JSON.stringify({ url: value }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const hash = await response.text();
+        result.href = result.innerText = window.location.href + hash;
+      }
+    </script>
+  </body>
+</html>

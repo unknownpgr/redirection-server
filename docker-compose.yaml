@@ -1,7 +1,9 @@
 version: "3.0"
 services:
-  backend:
+  server:
     image: node:14
+    ports:
+      - 81:80
     volumes:
       - ./src:/app
     working_dir: /app
@@ -9,5 +11,5 @@ services:
 
   redis:
     image: redis
-    volums:
+    volumes:
       - ./data:/data
