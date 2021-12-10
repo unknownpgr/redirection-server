@@ -4,7 +4,7 @@
 
 이번에 Redis를 공부해볼 겸, 간단한 단축 URL 생성기를 만들어보기로 했다. Redis를 공부하는 것인 만큼 매우 빠른 응답시간을 갖는 서버를 만드는 것이 목적이다.
 
-- Redis의 INCR를 사용하여 매번 고유한 숫자를 생성하고(이를 hash라 하자), URL > hash, hash > URL 변환을 key-value로 저장한다.
+- Redis의 `INCR`를 사용하여 매번 고유한 숫자를 생성하고(이를 hash라 하자), URL > hash, hash > URL 변환을 key-value로 저장한다.
 - 실제로는 단순히 10진수 숫자를 저장하는 것보다 이를 적당히 인코딩하여 저장하는 것이 URL 길이를 더 짧게 할 수 있으므로 URL-safe한 문자들로 이루어진 N진수를 hash로 한다.
 - URL 생성하기 버튼을 눌렀는데 기존에 이미 같은 URL에 대한 해시가 저장되어있다면 (cache hit) 해당 해시를 반환한다.
 - 그렇지 않다면 (cache miss) 새로운 해시를 생성하고 key-value로 저장한다.
