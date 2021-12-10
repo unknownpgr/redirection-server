@@ -17,12 +17,18 @@
   </head>
   <body>
     <div class="container">
-      <h1>Fash short-link generator</h1>
+      <h1>Fast short-link generator</h1>
       <div>
-        <input id="url" onkeydown="keydown(event)" />
-        <button onclick="hash()">Get URL</button>
+        <p>
+          <input id="url" onkeydown="keydown(event)" />
+          <button onclick="hash()">Get URL</button>
+        </p>
       </div>
-      <div><a id="result"></a></div>
+      <div>
+        <p>
+          <a id="result"></a>
+        </p>
+      </div>
     </div>
     <script>
       function keydown(e) {
