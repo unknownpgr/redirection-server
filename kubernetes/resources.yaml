@@ -15,10 +15,12 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`redire.ction.link`)
+      match: Host(`redire.ction.link`)||Host(`a.ction.link`)
       services:
         - kind: Service
           name: redirection
           passHostHeader: true
           port: 81
+      middlewares:
+        - name: redirect-https
   tls: {}
