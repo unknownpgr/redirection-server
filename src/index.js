@@ -9,6 +9,7 @@ const prefiex = prefix => value => `${prefix}${value}`;
 const h = prefiex('h'); // Prefix for hash
 const u = prefiex('u'); // Prefix for URL
 const k = prefiex('k'); // Prefix for key
+const c = prefiex('c'); // Prefix for counter
 
 const safeChars = [...'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._'];
 const N = safeChars.length;
@@ -39,7 +40,10 @@ async function main() {
       return;
     }
     const url = await client.get(h(hash));
-    if (url) ctx.redirect(url);
+    if (url) {
+      ctx.redirect(url);
+      await client.incr(c(url));
+    }
     else ctx.response.status = 404;
   });
 
